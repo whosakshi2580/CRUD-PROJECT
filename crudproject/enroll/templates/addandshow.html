@@ -1,0 +1,47 @@
+{% extends 'enroll/templates/base.html' %}
+{% block content %}
+<style>
+    body {padding: 20px;}
+</style>
+<div class="row">
+    <div class="col-sm-4">
+            <h4 class="text-center alert alert-info">add new student</h4>
+        <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-success" value="add"> 
+        </form>  
+    </div>
+    <div class="col-sm-7 offset-1">
+        <h4 class="text-center alert alert-warning">Show student information</h4>
+        {% if stu %}
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">action</th>
+             </tr>
+            </thead>
+            <tbody>
+                {% for st in stu%}
+              <tr>
+                <th scope="row">{{st.id}}</th>
+                <td>{{st.name}}</td>
+                <td>{{st.email}}</td>
+                <td>
+                    <a href="{% url 'updatedata' st.id %}" class="btn btn warning btn-sm">edit</a>
+                    <form action="{% url 'deletedata' st.id %}" method="POST" class="d-inline">{% csrf_token %}
+                        <input type="submit" class="tn btn-danger"  value="delete">
+                    </form>
+                </td>
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
